@@ -9,17 +9,12 @@ import UIKit
 import SnapKit
 import CoreData
 
-protocol DissmissDelegate {
-    func dissmiss()
-}
-
 protocol CityViewDelegate {
     func goToCity(id: Int)
 }
 
 class CityView: UIView {
     var delegate: CityViewDelegate!
-    var delegate1: DissmissDelegate!
     
     private var tableView: UITableView = {
         let tableView = UITableView()
@@ -48,7 +43,6 @@ class CityView: UIView {
             let fetchRequest = NSFetchRequest<City>(entityName: "City")
             do {
                 cities = try context.fetch(fetchRequest)
-                print(cities)
             }catch {
                 print("error")
             }
@@ -92,7 +86,6 @@ extension CityView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         delegate.goToCity(id: indexPath.row)
-        delegate1.dissmiss()
     }
     
     

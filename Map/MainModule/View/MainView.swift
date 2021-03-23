@@ -12,7 +12,7 @@ import CoreData
 
 protocol MainViewDelegate {
     func presentAlert(alert: UIAlertController)
-    func goToChange(vc: UIViewController)
+    func goToChange(index: Int, name: String?, place: String?)
 }
 
 class MainView: UIView, UIGestureRecognizerDelegate {
@@ -35,6 +35,7 @@ class MainView: UIView, UIGestureRecognizerDelegate {
     //MARK: - props
     
     var delegate: MainViewDelegate!
+    var array = [MKAnnotation]()
     
     private var map = MKMapView()
     private var button1: MapButton = {
@@ -162,6 +163,7 @@ class MainView: UIView, UIGestureRecognizerDelegate {
                 annotation.subtitle = place
                 annotation.coordinate = coordinate
                 
+                self.array.append(annotation)
                 self.map.addAnnotation(annotation)
             }
             
@@ -207,14 +209,19 @@ class MainView: UIView, UIGestureRecognizerDelegate {
     }
     
     func putAnnotation() {
+        var temp = [MKAnnotation]()
         for city in cities {
             let annotation = MKPointAnnotation()
+            
             annotation.title = city.name
             annotation.subtitle = city.place
             annotation.coordinate = CLLocationCoordinate2D(latitude: city.latitude, longitude: city.longitude)
             
+            temp.append(annotation)
             self.map.addAnnotation(annotation)
         }
+        
+        array = temp
     }
     
     
@@ -315,35 +322,25 @@ extension MainView: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        let changeVC = ChangeViewController()
-        changeVC.changeView.index = (self.map.annotations as NSArray).index(of: view.annotation!)
-        changeVC.changeView.name = (view.annotation?.title)!
-        changeVC.changeView.textField1.text = (view.annotation?.title)!
-        changeVC.changeView.textField2.text = (view.annotation?.subtitle)!
-        changeVC.delegate = self
-        delegate.goToChange(vc: changeVC)
+        let index = (array as NSArray).index(of: view.annotation!)
+        let name = view.annotation?.title
+        let place = view.annotation?.subtitle
+        delegate.goToChange(index: index, name: name!, place: place!)
+        
     }
 }
 
 //MARK: - ChangeViewDelegate
 
 
-extension MainView: ChangeViewDelegate {
-    func changeData(id: Int, name: String, newName: String, place: String) {
+extension MainView {
+    func changeData(id: Int, newName: String, place: String) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedContext = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<City>(entityName: "City")
-        
         do {
             cities = try managedContext.fetch(fetchRequest)
             let objectUpdate = cities[id] as NSManagedObject
-            
-//            for (i, city) in cities.enumerated() {
-//                if city.name == name {
-//                    objectUpdate = cities[i] as NSManagedObject
-//                    break
-//                }
-//            }
             objectUpdate.setValue(newName, forKey: "name")
             objectUpdate.setValue(place, forKey: "place")
             do {

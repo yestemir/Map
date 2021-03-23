@@ -9,12 +9,12 @@ import UIKit
 import SnapKit
 
 class CityViewController: UIViewController {
-    
+    weak var coordinator: CityCoordinator?
     var cityView = CityView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        cityView.delegate1 = self
+        cityView.delegate = self
         setupView()
     }
     
@@ -32,9 +32,9 @@ class CityViewController: UIViewController {
 
 }
 
-extension CityViewController: DissmissDelegate {
-    func dissmiss() {
+extension CityViewController: CityViewDelegate {
+    func goToCity(id: Int) {
+        coordinator?.goToCity(id: id)
         navigationController?.popViewController(animated: true)
     }
-    
 }
