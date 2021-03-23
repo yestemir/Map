@@ -7,7 +7,7 @@
 
 import UIKit
 import CoreData
-
+//commit 
 protocol ChangeViewDelegate {
     func changeData(id: Int, name: String, newName: String, place: String)
 }
