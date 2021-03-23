@@ -23,6 +23,10 @@
 		368F95612608994000542560 /* CityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368F95602608994000542560 /* CityTableViewCell.swift */; };
 		368F95642608A8B000542560 /* ChangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368F95632608A8B000542560 /* ChangeViewController.swift */; };
 		368F95672608A8D300542560 /* ChangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368F95662608A8D300542560 /* ChangeView.swift */; };
+		368F957B260A45B400542560 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368F957A260A45B400542560 /* Coordinator.swift */; };
+		368F957E260A476400542560 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368F957D260A476400542560 /* MainCoordinator.swift */; };
+		368F9581260A48AE00542560 /* CityCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368F9580260A48AE00542560 /* CityCoordinator.swift */; };
+		368F9585260A6E8100542560 /* ChangeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368F9584260A6E8100542560 /* ChangeCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +47,10 @@
 		368F95602608994000542560 /* CityTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityTableViewCell.swift; sourceTree = "<group>"; };
 		368F95632608A8B000542560 /* ChangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeViewController.swift; sourceTree = "<group>"; };
 		368F95662608A8D300542560 /* ChangeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeView.swift; sourceTree = "<group>"; };
+		368F957A260A45B400542560 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		368F957D260A476400542560 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		368F9580260A48AE00542560 /* CityCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCoordinator.swift; sourceTree = "<group>"; };
+		368F9584260A6E8100542560 /* ChangeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,10 +86,14 @@
 			children = (
 				368F9528260852B100542560 /* SupportingFiles */,
 				368F95692608ACBC00542560 /* MainModule */,
-				368F956D2608ACF100542560 /* TableModule */,
+				368F956D2608ACF100542560 /* CityModule */,
 				368F95712608AD1600542560 /* ChangeModule */,
 				368F951E2608528400542560 /* Info.plist */,
 				368F95162608528200542560 /* Map.xcdatamodeld */,
+				368F957A260A45B400542560 /* Coordinator.swift */,
+				368F957D260A476400542560 /* MainCoordinator.swift */,
+				368F9580260A48AE00542560 /* CityCoordinator.swift */,
+				368F9584260A6E8100542560 /* ChangeCoordinator.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -156,14 +168,14 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		368F956D2608ACF100542560 /* TableModule */ = {
+		368F956D2608ACF100542560 /* CityModule */ = {
 			isa = PBXGroup;
 			children = (
 				368F95702608AD0900542560 /* ViewModel */,
 				368F956F2608AD0500542560 /* View */,
 				368F956E2608AD0000542560 /* Model */,
 			);
-			path = TableModule;
+			path = CityModule;
 			sourceTree = "<group>";
 		};
 		368F956E2608AD0000542560 /* Model */ = {
@@ -277,16 +289,20 @@
 			files = (
 				368F952C260852E500542560 /* MainViewModel.swift in Sources */,
 				368F95672608A8D300542560 /* ChangeView.swift in Sources */,
+				368F9585260A6E8100542560 /* ChangeCoordinator.swift in Sources */,
 				368F955E2608950500542560 /* CityView.swift in Sources */,
 				368F953826085B7500542560 /* MainView.swift in Sources */,
 				368F95122608528200542560 /* ViewController.swift in Sources */,
 				368F953C2608618300542560 /* Button.swift in Sources */,
+				368F957B260A45B400542560 /* Coordinator.swift in Sources */,
 				368F950E2608528200542560 /* AppDelegate.swift in Sources */,
 				368F95642608A8B000542560 /* ChangeViewController.swift in Sources */,
 				368F955B2608934100542560 /* CityViewController.swift in Sources */,
 				368F95182608528200542560 /* Map.xcdatamodeld in Sources */,
 				368F95102608528200542560 /* SceneDelegate.swift in Sources */,
 				368F95302608536C00542560 /* MainModel.swift in Sources */,
+				368F9581260A48AE00542560 /* CityCoordinator.swift in Sources */,
+				368F957E260A476400542560 /* MainCoordinator.swift in Sources */,
 				368F95612608994000542560 /* CityTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

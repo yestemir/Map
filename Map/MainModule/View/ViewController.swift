@@ -11,6 +11,7 @@ import SnapKit
 
 class ViewController: UIViewController {
     
+    weak var coordinator: MainCoordinator?
     var mainView = MainView()
     
     override func viewWillAppear(_ animated: Bool) {
@@ -24,13 +25,11 @@ class ViewController: UIViewController {
         setupView()
         title = "Map"
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "folder"), style: .plain, target: self, action: #selector(addTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "folder"), style: .plain, target: self, action: #selector(goToFolder))
     }
     
-    @objc func addTapped() {
-        let tableVC = CityViewController()
-        tableVC.cityView.delegate = self
-        navigationController?.pushViewController(tableVC, animated: true)
+    @objc func goToFolder() {
+        coordinator?.goToFolder()
     }
     
     func setupView() {
@@ -46,14 +45,22 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: MainViewDelegate, CityViewDelegate {
+extension ViewController: MainViewDelegate {
+    func goToChange(index: Int, name: String?, place: String?) {
+        coordinator?.goToChange(index: index, name: name, place: place)
+    }
+    
     func goToCity(id: Int) {
         mainView.goToCity(id: id)
     }
     
-    func goToChange(vc: UIViewController) {
-        navigationController?.pushViewController(vc, animated: true)
+    func changeAnnotation(id: Int, newName: String, place: String) {
+        mainView.changeData(id: id, newName: newName, place: place)
     }
+    
+//    func goToChange(vc: UIViewController) {
+//        navigationController?.pushViewController(vc, animated: true)
+//    }
     
     func presentAlert(alert: UIAlertController) {
         self.present(alert, animated: true)

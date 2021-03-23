@@ -7,14 +7,9 @@
 
 import UIKit
 import CoreData
-//commit 
-protocol ChangeViewDelegate {
-    func changeData(id: Int, name: String, newName: String, place: String)
-}
 
 class ChangeViewController: UIViewController {
-    
-    var delegate: ChangeViewDelegate!
+    weak var coordinator: ChangeCoordinator?
     var changeView = ChangeView()
 
     override func viewDidLoad() {
@@ -24,7 +19,7 @@ class ChangeViewController: UIViewController {
     }
     
     @objc func doneTapped(){
-        delegate.changeData(id: changeView.index, name: changeView.name, newName: changeView.textField1.text!, place: changeView.textField2.text!)
+        coordinator?.change(id: changeView.index, newName: changeView.textField1.text!, place: changeView.textField2.text!)
         navigationController?.popViewController(animated: true)
     }
     

@@ -11,7 +11,6 @@ import CoreData
 class ChangeView: UIView {
     
     var index: Int!
-    var name: String!
     
     lazy var textField1: UITextField  = {
         let textField = UITextField()
