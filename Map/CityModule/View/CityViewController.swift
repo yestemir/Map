@@ -11,15 +11,28 @@ import SnapKit
 class CityViewController: UIViewController {
     weak var coordinator: CityCoordinator?
     var cityView = CityView()
+    var viewModel: CityViewModel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.init(white: 1, alpha: 0.5)
         view.isOpaque = false
-        cityView.delegate = self
-        setupView()
         title = "Cities"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "folder"), style: .plain, target: self, action: #selector(goToFolder))
+        
+        
+        cityView.delegate = self
+        setupView()
+        
+        viewModel = CityViewModel()
+        updateView()
+        viewModel.loadCity()
+    }
+    
+    func updateView() {
+        viewModel.updateViewData = { [weak self] viewData in
+            self?.cityView.viewData = viewData
+        }
     }
     
     @objc func goToFolder() {
@@ -41,6 +54,11 @@ class CityViewController: UIViewController {
 }
 
 extension CityViewController: CityViewDelegate {
+    func deleteCity(id: Int) {
+        viewModel.deleteCity(id: id)
+        coordinator?.reloadMain()
+    }
+    
     func goToCity(id: Int) {
         coordinator?.goToCity(id: id)
         navigationController?.dismiss(animated: false, completion: nil)

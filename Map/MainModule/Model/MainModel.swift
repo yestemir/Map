@@ -10,13 +10,7 @@ import Foundation
 enum MainModel {
     case initial
     case loading
-    case success(Data)
+    case success([City])
+    case updateCity(City, Int)
     case failure
-    
-    struct Data{
-        let longitude: Double
-        let latitude: Double
-        let name: String
-        let place: String
-    }
 }
