@@ -13,6 +13,7 @@ import CoreData
 protocol MainViewDelegate {
     func presentAlert(alert: UIAlertController)
     func goToChange(index: Int, name: String?, place: String?)
+    func changeTitle(name: String)
 }
 
 class MainView: UIView, UIGestureRecognizerDelegate {
@@ -88,6 +89,8 @@ class MainView: UIView, UIGestureRecognizerDelegate {
             map.setCenter(coordinate, animated: true)
         }
         
+        delegate.changeTitle(name: cities[cnt].name!)
+        
         if cnt > 0 {
             cnt -= 1
         }else{
@@ -106,6 +109,8 @@ class MainView: UIView, UIGestureRecognizerDelegate {
             let coordinate = CLLocationCoordinate2D(latitude: cities[cnt].latitude, longitude: cities[cnt].longitude)
             map.setCenter(coordinate, animated: true)
         }
+        
+        delegate.changeTitle(name: cities[cnt].name!)
         
         if cnt < cities.count - 1 {
             cnt += 1
@@ -163,6 +168,7 @@ class MainView: UIView, UIGestureRecognizerDelegate {
                 annotation.subtitle = place
                 annotation.coordinate = coordinate
                 
+                self.delegate.changeTitle(name: name)
                 self.array.append(annotation)
                 self.map.addAnnotation(annotation)
             }
@@ -178,6 +184,7 @@ class MainView: UIView, UIGestureRecognizerDelegate {
         region.span.latitudeDelta = min(0.5, 180.0)
         region.span.longitudeDelta = min(0.5, 180.0)
         map.setRegion(region, animated: false)
+        delegate.changeTitle(name: cities[id].name!)
         
         if cnt >= 0 && cnt < cities.count {
             let coordinate = CLLocationCoordinate2D(latitude: cities[id].latitude, longitude: cities[id].longitude)
@@ -352,6 +359,8 @@ extension MainView {
         }catch {
             print(error)
         }
+        
+        delegate.changeTitle(name: newName)
         
         self.setNeedsDisplay()
     }

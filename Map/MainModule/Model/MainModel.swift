@@ -14,9 +14,9 @@ enum MainModel {
     case failure
     
     struct Data{
-        let longitude: String
-        let latitude: String
+        let longitude: Double
+        let latitude: Double
         let name: String
-        let description: String
+        let place: String
     }
 }

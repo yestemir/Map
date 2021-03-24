@@ -19,7 +19,8 @@ class CityView: UIView {
     private var tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(CityTableViewCell.self, forCellReuseIdentifier: "cell")
-        
+        tableView.isOpaque = false
+        tableView.backgroundColor = UIColor.init(white: 1, alpha: 0)
         return tableView
     }()
     

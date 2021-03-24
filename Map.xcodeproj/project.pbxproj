@@ -84,16 +84,13 @@
 		368F950C2608528200542560 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				36FE0EAC260B177500711F0E /* Coordnators */,
 				368F9528260852B100542560 /* SupportingFiles */,
 				368F95692608ACBC00542560 /* MainModule */,
 				368F956D2608ACF100542560 /* CityModule */,
 				368F95712608AD1600542560 /* ChangeModule */,
 				368F951E2608528400542560 /* Info.plist */,
 				368F95162608528200542560 /* Map.xcdatamodeld */,
-				368F957A260A45B400542560 /* Coordinator.swift */,
-				368F957D260A476400542560 /* MainCoordinator.swift */,
-				368F9580260A48AE00542560 /* CityCoordinator.swift */,
-				368F9584260A6E8100542560 /* ChangeCoordinator.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -210,6 +207,17 @@
 				368F95252608529C00542560 /* Model */,
 			);
 			path = ChangeModule;
+			sourceTree = "<group>";
+		};
+		36FE0EAC260B177500711F0E /* Coordnators */ = {
+			isa = PBXGroup;
+			children = (
+				368F957A260A45B400542560 /* Coordinator.swift */,
+				368F957D260A476400542560 /* MainCoordinator.swift */,
+				368F9580260A48AE00542560 /* CityCoordinator.swift */,
+				368F9584260A6E8100542560 /* ChangeCoordinator.swift */,
+			);
+			path = Coordnators;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
