@@ -23,6 +23,8 @@ class CityTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupView()
+        self.isOpaque = false
+        self.backgroundColor = UIColor(white: 1, alpha: 0)
     }
     
     required init?(coder: NSCoder) {

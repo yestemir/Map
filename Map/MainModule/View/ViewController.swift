@@ -23,7 +23,6 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         mainView.delegate = self
         setupView()
-        title = "Map"
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "folder"), style: .plain, target: self, action: #selector(goToFolder))
     }
@@ -46,6 +45,10 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: MainViewDelegate {
+    func changeTitle(name: String) {
+        self.title = name
+    }
+    
     func goToChange(index: Int, name: String?, place: String?) {
         coordinator?.goToChange(index: index, name: name, place: place)
     }
@@ -57,10 +60,6 @@ extension ViewController: MainViewDelegate {
     func changeAnnotation(id: Int, newName: String, place: String) {
         mainView.changeData(id: id, newName: newName, place: place)
     }
-    
-//    func goToChange(vc: UIViewController) {
-//        navigationController?.pushViewController(vc, animated: true)
-//    }
     
     func presentAlert(alert: UIAlertController) {
         self.present(alert, animated: true)

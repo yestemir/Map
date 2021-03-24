@@ -19,8 +19,11 @@ class CityCoordinator: Coordinator {
     
     func start() {
         let vc = CityViewController()
+        let navVC = UINavigationController(rootViewController: vc)
         vc.coordinator = self
-        navigationController.pushViewController(vc, animated: true)
+        navVC.modalPresentationStyle = .overCurrentContext
+        navigationController.viewControllers.last?.present(navVC, animated: false)
+//        navigationController.pushViewController(vc, animated: true)
     }
     
     func goToCity(id: Int) {

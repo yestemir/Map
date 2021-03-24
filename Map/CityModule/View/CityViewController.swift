@@ -14,8 +14,16 @@ class CityViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.init(white: 1, alpha: 0.5)
+        view.isOpaque = false
         cityView.delegate = self
         setupView()
+        title = "Cities"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "folder"), style: .plain, target: self, action: #selector(goToFolder))
+    }
+    
+    @objc func goToFolder() {
+        navigationController?.dismiss(animated: false, completion: nil)
     }
     
     func setupView() {
@@ -35,6 +43,8 @@ class CityViewController: UIViewController {
 extension CityViewController: CityViewDelegate {
     func goToCity(id: Int) {
         coordinator?.goToCity(id: id)
-        navigationController?.popViewController(animated: true)
+        navigationController?.dismiss(animated: false, completion: nil)
+//        dismiss(animated: true, completion: nil)
+//        navigationController?.popViewController(animated: true)
     }
 }
