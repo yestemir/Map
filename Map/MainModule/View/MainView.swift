@@ -33,6 +33,7 @@ class MainView: UIView, UIGestureRecognizerDelegate {
         setupView()
         setupGesture()
         putAnnotation()
+        map.register(CustomAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
     }
     
     required init?(coder: NSCoder) {
@@ -319,22 +320,22 @@ class MainView: UIView, UIGestureRecognizerDelegate {
 //MARK: - extenstion put Annotation
 
 extension MainView: MKMapViewDelegate {
+    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        var annotationView = map.dequeueReusableAnnotationView(withIdentifier: "pin")
-        
-        if annotationView == nil {
-            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "pin")
+            if annotation is MKUserLocation { return nil }
+
+            let reuseIdentifier = "annotation"
+
+            var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseIdentifier)
+
+            if annotationView == nil {
+                annotationView = CustomAnnotationView(annotation: annotation, reuseIdentifier: reuseIdentifier)
+            } else {
+                annotationView?.annotation = annotation
+            }
+
+            return annotationView
         }
-        
-        annotationView?.image = UIImage(named: "pin")
-        annotationView?.canShowCallout = true
-        
-        let btn = UIButton(type: .detailDisclosure)
-        annotationView?.rightCalloutAccessoryView = btn
-        
-        return annotationView
-        
-    }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         let index = (array as NSArray).index(of: view.annotation!)
@@ -353,5 +354,4 @@ extension MainView {
         delegate.updateCity(id: id, name: newName, place: place)
         delegate.changeTitle(name: newName)
     }
-    
 }

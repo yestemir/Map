@@ -31,6 +31,7 @@
 		36FE0EB6260B695700711F0E /* RouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FE0EB5260B695700711F0E /* RouterProtocol.swift */; };
 		36FE0EB9260B697000711F0E /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FE0EB8260B697000711F0E /* Router.swift */; };
 		36FE0EBC260B69A900711F0E /* Presentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FE0EBB260B69A900711F0E /* Presentable.swift */; };
+		36FE0EC0260BA8CF00711F0E /* Annotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FE0EBF260BA8CF00711F0E /* Annotation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +60,7 @@
 		36FE0EB5260B695700711F0E /* RouterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterProtocol.swift; sourceTree = "<group>"; };
 		36FE0EB8260B697000711F0E /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		36FE0EBB260B69A900711F0E /* Presentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presentable.swift; sourceTree = "<group>"; };
+		36FE0EBF260BA8CF00711F0E /* Annotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Annotation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,9 +94,9 @@
 		368F950C2608528200542560 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				368F9528260852B100542560 /* SupportingFiles */,
 				36FE0EB4260B694600711F0E /* Router */,
 				36FE0EAC260B177500711F0E /* Coordnators */,
-				368F9528260852B100542560 /* SupportingFiles */,
 				368F95692608ACBC00542560 /* MainModule */,
 				368F956D2608ACF100542560 /* CityModule */,
 				368F95712608AD1600542560 /* ChangeModule */,
@@ -140,6 +142,7 @@
 				368F95112608528200542560 /* ViewController.swift */,
 				368F953726085B7500542560 /* MainView.swift */,
 				368F953B2608618300542560 /* Button.swift */,
+				36FE0EBF260BA8CF00711F0E /* Annotation.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -299,6 +302,7 @@
 				368F95122608528200542560 /* ViewController.swift in Sources */,
 				368F953C2608618300542560 /* Button.swift in Sources */,
 				36FE0EB6260B695700711F0E /* RouterProtocol.swift in Sources */,
+				36FE0EC0260BA8CF00711F0E /* Annotation.swift in Sources */,
 				36FE0EB1260B57B500711F0E /* CityViewModel.swift in Sources */,
 				368F957B260A45B400542560 /* Coordinator.swift in Sources */,
 				368F950E2608528200542560 /* AppDelegate.swift in Sources */,
