@@ -49,6 +49,10 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
         vc.changeAnnotation(id: id, newName: newName, place: place)
     }
     
+    func reloadMain() {
+        vc.reloadVC()
+    }
+    
     func childDidFinish(_ child: Coordinator?) {
         for(index, coordinator) in childCoordinators.enumerated() {
             if coordinator === child {

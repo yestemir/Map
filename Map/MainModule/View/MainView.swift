@@ -14,18 +14,24 @@ protocol MainViewDelegate {
     func presentAlert(alert: UIAlertController)
     func goToChange(index: Int, name: String?, place: String?)
     func changeTitle(name: String)
+    func saveCity(name: String, place: String, long: Double, lat: Double)
+    func updateCity(id: Int, name: String, place: String)
 }
 
 class MainView: UIView, UIGestureRecognizerDelegate {
     
-    //MARK: - inis
+    var viewData: MainModel = .initial {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+    //MARK: - inits
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
         map.delegate = self
         setupView()
         setupGesture()
-        loadCity()
         putAnnotation()
     }
     
@@ -73,6 +79,38 @@ class MainView: UIView, UIGestureRecognizerDelegate {
         segment.selectedSegmentIndex = 0
         return segment
     }()
+    
+    let activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.color = .gray
+        activityIndicator.hidesWhenStopped = true
+        return activityIndicator
+    }()
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        switch viewData {
+        case .initial:
+            self.map.isHidden = true
+            self.activityIndicator.isHidden = true
+            self.activityIndicator.stopAnimating()
+        case .loading:
+            self.map.isHidden = true
+            self.activityIndicator.isHidden = false
+            self.activityIndicator.startAnimating()
+        case .success(let cities):
+            self.map.isHidden = false
+            self.cities = cities
+            map.removeAnnotations(map.annotations)
+            putAnnotation()
+            self.activityIndicator.stopAnimating()
+        case .failure:
+            self.map.isHidden = true
+            self.activityIndicator.stopAnimating()
+        case .updateCity(let city, let id):
+            cities[id] = city
+        }
+    }
     
     //MARK: - custom funcs
     
@@ -161,7 +199,7 @@ class MainView: UIView, UIGestureRecognizerDelegate {
         alert.addAction(UIAlertAction(title: "Save", style: .default, handler: { action in
             
             if let name = alert.textFields?.first?.text, let place = alert.textFields?.last?.text {
-                self.saveCity(name: name, place: place, long: Double(coordinate.longitude), lat: Double(coordinate.latitude))
+                self.delegate.saveCity(name: name, place: place, long: Double(coordinate.longitude), lat: Double(coordinate.latitude))
                 
                 let annotation = MKPointAnnotation()
                 annotation.title = name
@@ -196,20 +234,7 @@ class MainView: UIView, UIGestureRecognizerDelegate {
     
     var cities: [City] = []
     
-    func loadCity() {
-        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-            let context = appDelegate.persistentContainer.viewContext
-            let fetchRequest = NSFetchRequest<City>(entityName: "City")
-            do {
-                cities = try context.fetch(fetchRequest)
-            }catch {
-                print("error")
-            }
-        }
-    }
-    
     func reloadMap() {
-        loadCity()
         let allAnnotations = map.annotations
         map.removeAnnotations(allAnnotations)
         putAnnotation()
@@ -231,32 +256,11 @@ class MainView: UIView, UIGestureRecognizerDelegate {
         array = temp
     }
     
-    
-    func saveCity(name: String, place: String, long: Double, lat: Double) {
-        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-            let context = appDelegate.persistentContainer.viewContext
-            if let entity = NSEntityDescription.entity(forEntityName: "City", in: context) {
-                let city = NSManagedObject(entity: entity, insertInto: context)
-                city.setValue(name, forKey: "name")
-                city.setValue(place, forKey: "place")
-                city.setValue(long, forKey: "longitude")
-                city.setValue(lat, forKey: "latitude")
-                do{
-                    try context.save()
-                    cities.append(city as! City)
-                }catch{
-                    print("error")
-                }
-            }
-            
-        }
-    }
-    
     //MARK: - setup
     
     func setupView() {
         
-        [map, button1, button2, segment, button3, button4].forEach {
+        [map, button1, button2, segment, button3, button4, activityIndicator].forEach {
             self.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -295,6 +299,10 @@ class MainView: UIView, UIGestureRecognizerDelegate {
             make.bottom.equalTo(self.snp.bottom).offset(-20)
             make.width.height.equalTo(50)
         }
+        
+        activityIndicator.snp.makeConstraints { (make) in
+            make.centerX.centerY.equalTo(self)
+        }
     }
     
     
@@ -308,7 +316,7 @@ class MainView: UIView, UIGestureRecognizerDelegate {
 }
 
 
-//MARK: - extenstion
+//MARK: - extenstion put Annotation
 
 extension MainView: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -341,30 +349,9 @@ extension MainView: MKMapViewDelegate {
 
 
 extension MainView {
-    func changeData(id: Int, newName: String, place: String) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<City>(entityName: "City")
-        do {
-            cities = try managedContext.fetch(fetchRequest)
-            let objectUpdate = cities[id] as NSManagedObject
-            objectUpdate.setValue(newName, forKey: "name")
-            objectUpdate.setValue(place, forKey: "place")
-            do {
-                try managedContext.save()
-            }
-            catch {
-                print(error)
-            }
-        }catch {
-            print(error)
-        }
-        
+    func updateCity(id: Int, newName: String, place: String) {
+        delegate.updateCity(id: id, name: newName, place: place)
         delegate.changeTitle(name: newName)
-        
-        self.setNeedsDisplay()
     }
-    
-    
     
 }

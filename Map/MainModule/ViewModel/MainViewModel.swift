@@ -8,37 +8,83 @@
 
 import Foundation
 import UIKit
+import CoreData
+import MapKit
 
 protocol MainViewModelProtocol {
     var updateViewData: ((MainModel) -> Void)? { get set }
-    func startFech()
-    func setParams(longitude: Double, latitude: Double, name: String, description: String)
+    func loadCity()
+    func saveCity(name: String, place: String, long: Double, lat: Double)
+    func updateCity(id: Int, newName: String, place: String)
 }
 
 class MainViewModel: MainViewModelProtocol {
+    
     var updateViewData: ((MainModel) -> ())?
-    var longitude = Double()
-    var latitude = Double()
-    var name = String()
-    var place = String()
+    var cities = [City]()
     
     init() {
         updateViewData?(.initial)
     }
     
-    func startFech() {
-        updateViewData?(.loading)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            self.updateViewData?(.success(MainModel.Data(longitude: self.longitude, latitude: self.latitude, name: self.name, place: self.place)))
+    func loadCity() {
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+            let context = appDelegate.persistentContainer.viewContext
+            let fetchRequest = NSFetchRequest<City>(entityName: "City")
+            do {
+                cities = try context.fetch(fetchRequest)
+                updateViewData?(.success(cities))
+            }catch {
+                updateViewData?(.failure)
+                print("error")
+            }
         }
     }
     
-    func setParams(longitude: Double, latitude: Double, name: String, description: String) {
-        self.latitude = latitude
-        self.longitude = longitude
-        self.name = name
-        self.place = description
+    
+    func saveCity(name: String, place: String, long: Double, lat: Double) {
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+            let context = appDelegate.persistentContainer.viewContext
+            if let entity = NSEntityDescription.entity(forEntityName: "City", in: context) {
+                let city = NSManagedObject(entity: entity, insertInto: context)
+                city.setValue(name, forKey: "name")
+                city.setValue(place, forKey: "place")
+                city.setValue(long, forKey: "longitude")
+                city.setValue(lat, forKey: "latitude")
+                do{
+                    try context.save()
+                    cities.append(city as! City)
+                    updateViewData?(.success(cities))
+                }catch{
+                    updateViewData?(.failure)
+                    print("error")
+                }
+            }
+            
+        }
+    }
+    
+    func updateCity(id: Int, newName: String, place: String) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<City>(entityName: "City")
+        do {
+            cities = try managedContext.fetch(fetchRequest)
+            let objectUpdate = cities[id] as NSManagedObject
+            objectUpdate.setValue(newName, forKey: "name")
+            objectUpdate.setValue(place, forKey: "place")
+            do {
+                try managedContext.save()
+                updateViewData?(.updateCity(objectUpdate as! City, id))
+            }
+            catch {
+                updateViewData?(.failure)
+                print(error)
+            }
+        }catch {
+            updateViewData?(.failure)
+            print(error)
+        }
     }
     
     

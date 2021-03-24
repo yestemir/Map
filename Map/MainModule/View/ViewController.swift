@@ -13,6 +13,7 @@ class ViewController: UIViewController {
     
     weak var coordinator: MainCoordinator?
     var mainView = MainView()
+    var viewModel: MainViewModelProtocol!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -24,7 +25,17 @@ class ViewController: UIViewController {
         mainView.delegate = self
         setupView()
         
+        viewModel = MainViewModel()
+        
+        updateView()
+        viewModel.loadCity()
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "folder"), style: .plain, target: self, action: #selector(goToFolder))
+    }
+    
+    func updateView() {
+        viewModel.updateViewData = { [weak self] viewData in
+            self?.mainView.viewData = viewData
+        }
     }
     
     @objc func goToFolder() {
@@ -45,6 +56,14 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: MainViewDelegate {
+    func saveCity(name: String, place: String, long: Double, lat: Double) {
+        viewModel.saveCity(name: name, place: place, long: long, lat: lat)
+    }
+    
+    func updateCity(id: Int, name: String, place: String) {
+        viewModel.updateCity(id: id, newName: name, place: place)
+    }
+    
     func changeTitle(name: String) {
         self.title = name
     }
@@ -58,11 +77,16 @@ extension ViewController: MainViewDelegate {
     }
     
     func changeAnnotation(id: Int, newName: String, place: String) {
-        mainView.changeData(id: id, newName: newName, place: place)
+        mainView.updateCity(id: id, newName: newName, place: place)
     }
     
     func presentAlert(alert: UIAlertController) {
         self.present(alert, animated: true)
+    }
+    
+    func reloadVC() {
+        viewModel.loadCity()
+        updateView()
     }
 }
 

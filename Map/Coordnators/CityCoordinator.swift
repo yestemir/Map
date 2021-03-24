@@ -29,4 +29,8 @@ class CityCoordinator: Coordinator {
     func goToCity(id: Int) {
         parentCoordinator?.goToCity(id: id)
     }
+    
+    func reloadMain() {
+        parentCoordinator?.reloadMain()
+    }
 }

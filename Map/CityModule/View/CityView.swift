@@ -11,9 +11,16 @@ import CoreData
 
 protocol CityViewDelegate {
     func goToCity(id: Int)
+    func deleteCity(id: Int)
 }
 
 class CityView: UIView {
+    
+    var viewData: MainModel = .initial {
+        didSet {
+            setNeedsLayout()
+        }
+    }
     var delegate: CityViewDelegate!
     
     private var tableView: UITableView = {
@@ -24,6 +31,13 @@ class CityView: UIView {
         return tableView
     }()
     
+    let activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.color = .gray
+        activityIndicator.hidesWhenStopped = true
+        return activityIndicator
+    }()
+    
     var cities = [City]()
     
     override init(frame: CGRect) {
@@ -31,25 +45,10 @@ class CityView: UIView {
         setupView()
         tableView.delegate = self
         tableView.dataSource = self
-        cities = loadCity()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    func loadCity() -> [City]{
-        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-            let context = appDelegate.persistentContainer.viewContext
-            let fetchRequest = NSFetchRequest<City>(entityName: "City")
-            do {
-                cities = try context.fetch(fetchRequest)
-            }catch {
-                print("error")
-            }
-        }
-        
-        return cities
     }
     
     func setupView() {
@@ -64,8 +63,33 @@ class CityView: UIView {
         
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        switch viewData {
+        case .initial:
+            self.tableView.isHidden = true
+            self.activityIndicator.isHidden = true
+            self.activityIndicator.stopAnimating()
+        case .loading:
+            self.tableView.isHidden = true
+            self.activityIndicator.isHidden = false
+            self.activityIndicator.startAnimating()
+        case .success(let cities):
+            self.tableView.isHidden = false
+            self.cities = cities
+            self.activityIndicator.stopAnimating()
+            self.tableView.reloadData()
+        case .failure:
+            self.tableView.isHidden = true
+            self.activityIndicator.stopAnimating()
+        case .updateCity(let city, let id):
+            cities[id] = city
+        }
+    }
+    
 }
 
+//MARK: - UITableViewDelegate
 
 extension CityView: UITableViewDelegate, UITableViewDataSource {
     
@@ -92,26 +116,7 @@ extension CityView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-            let managedContext = appDelegate.persistentContainer.viewContext
-            let fetchRequest = NSFetchRequest<City>(entityName: "City")
-            
-            do {
-                let city = try managedContext.fetch(fetchRequest)
-                let objectUpdate = city[indexPath.row] as NSManagedObject
-                managedContext.delete(objectUpdate)
-                do {
-                    try managedContext.save()
-                }
-                catch {
-                    print(error)
-                }
-            } catch {
-                print(error)
-            }
-            
-            self.setNeedsDisplay()
-            
+            delegate.deleteCity(id: indexPath.row)
             cities.remove(at: indexPath.row)
             tableView.reloadData()
         }
