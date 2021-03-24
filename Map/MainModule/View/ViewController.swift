@@ -70,6 +70,7 @@ extension ViewController: MainViewDelegate {
     
     func goToChange(index: Int, name: String?, place: String?) {
         coordinator?.goToChange(index: index, name: name, place: place)
+        self.title = name
     }
     
     func goToCity(id: Int) {
