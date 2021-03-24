@@ -36,3 +36,9 @@ class ChangeViewController: UIViewController {
     }
 
 }
+
+extension ChangeViewController: Presentable {
+    func toPresent() -> UIViewController? {
+        return self
+    }
+}

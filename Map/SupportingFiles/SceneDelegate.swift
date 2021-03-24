@@ -18,8 +18,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow.init(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
         
+//        var navController: UINavigationController {
+//                return self.window!.rootViewController as! UINavigationController
+//            }
         let navController = UINavigationController()
-        coordinator = MainCoordinator(navigationController: navController)
+        coordinator = MainCoordinator(navigationController: navController, router: Router(rootController: navController))
         coordinator?.start()
         window?.rootViewController = navController
         window?.makeKeyAndVisible()

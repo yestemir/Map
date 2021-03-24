@@ -90,3 +90,9 @@ extension ViewController: MainViewDelegate {
     }
 }
 
+
+extension ViewController: Presentable {
+    func toPresent() -> UIViewController? {
+        return self
+    }
+}

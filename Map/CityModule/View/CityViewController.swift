@@ -66,3 +66,17 @@ extension CityViewController: CityViewDelegate {
 //        navigationController?.popViewController(animated: true)
     }
 }
+
+extension CityViewController: Presentable {
+    func toPresent() -> UIViewController? {
+        return self
+    }
+    
+}
+
+
+extension UINavigationController: Presentable{
+    func toPresent() -> UIViewController? {
+        return self
+    }
+}
