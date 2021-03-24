@@ -11,14 +11,16 @@ import UIKit
 class ChangeCoordinator: Coordinator {
     
     weak var parentCoordinator: MainCoordinator?
+    var router: RouterProtocol?
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
     var index: Int!
     var name: String!
     var place: String!
     
-    init(navigationController: UINavigationController) {
+    init(navigationController: UINavigationController, router: RouterProtocol?) {
         self.navigationController = navigationController
+        self.router = router
     }
     
     func start() {
@@ -27,7 +29,8 @@ class ChangeCoordinator: Coordinator {
         vc.changeView.index = self.index
         vc.changeView.textField1.text = self.name
         vc.changeView.textField2.text = self.place
-        navigationController.pushViewController(vc, animated: true)
+        router?.push(vc)
+//        navigationController.pushViewController(vc, animated: true)
     }
     
     func change(id: Int,newName: String, place: String) {

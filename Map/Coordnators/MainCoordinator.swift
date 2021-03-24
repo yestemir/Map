@@ -9,11 +9,13 @@ import Foundation
 import UIKit
 
 class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
+    var router: RouterProtocol?
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
     
-    init(navigationController: UINavigationController) {
+    init(navigationController: UINavigationController, router: RouterProtocol?) {
         self.navigationController = navigationController
+        self.router = router
     }
     
     let vc = ViewController()
@@ -21,18 +23,19 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
     func start() {
         navigationController.delegate = self // going back
         vc.coordinator = self
-        navigationController.pushViewController(vc, animated: true)
+        router?.push(vc)
+//        navigationController.pushViewController(vc, animated: true)
     }
     
     func goToFolder() {
-        let child = CityCoordinator(navigationController: navigationController)
+        let child = CityCoordinator(navigationController: navigationController, router: router)
         childCoordinators.append(child)
         child.parentCoordinator = self
         child.start()
     }
     
     func goToChange(index: Int, name: String?, place: String?) {
-        let child = ChangeCoordinator(navigationController: navigationController)
+        let child = ChangeCoordinator(navigationController: navigationController, router: router)
         child.index = index
         child.name = name
         child.place = place

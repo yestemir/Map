@@ -28,6 +28,9 @@
 		368F9581260A48AE00542560 /* CityCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368F9580260A48AE00542560 /* CityCoordinator.swift */; };
 		368F9585260A6E8100542560 /* ChangeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368F9584260A6E8100542560 /* ChangeCoordinator.swift */; };
 		36FE0EB1260B57B500711F0E /* CityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FE0EB0260B57B500711F0E /* CityViewModel.swift */; };
+		36FE0EB6260B695700711F0E /* RouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FE0EB5260B695700711F0E /* RouterProtocol.swift */; };
+		36FE0EB9260B697000711F0E /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FE0EB8260B697000711F0E /* Router.swift */; };
+		36FE0EBC260B69A900711F0E /* Presentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FE0EBB260B69A900711F0E /* Presentable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +56,9 @@
 		368F9580260A48AE00542560 /* CityCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCoordinator.swift; sourceTree = "<group>"; };
 		368F9584260A6E8100542560 /* ChangeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeCoordinator.swift; sourceTree = "<group>"; };
 		36FE0EB0260B57B500711F0E /* CityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityViewModel.swift; sourceTree = "<group>"; };
+		36FE0EB5260B695700711F0E /* RouterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterProtocol.swift; sourceTree = "<group>"; };
+		36FE0EB8260B697000711F0E /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		36FE0EBB260B69A900711F0E /* Presentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presentable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +92,7 @@
 		368F950C2608528200542560 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				36FE0EB4260B694600711F0E /* Router */,
 				36FE0EAC260B177500711F0E /* Coordnators */,
 				368F9528260852B100542560 /* SupportingFiles */,
 				368F95692608ACBC00542560 /* MainModule */,
@@ -199,6 +206,16 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		36FE0EB4260B694600711F0E /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				36FE0EB5260B695700711F0E /* RouterProtocol.swift */,
+				36FE0EB8260B697000711F0E /* Router.swift */,
+				36FE0EBB260B69A900711F0E /* Presentable.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -281,10 +298,12 @@
 				368F953826085B7500542560 /* MainView.swift in Sources */,
 				368F95122608528200542560 /* ViewController.swift in Sources */,
 				368F953C2608618300542560 /* Button.swift in Sources */,
+				36FE0EB6260B695700711F0E /* RouterProtocol.swift in Sources */,
 				36FE0EB1260B57B500711F0E /* CityViewModel.swift in Sources */,
 				368F957B260A45B400542560 /* Coordinator.swift in Sources */,
 				368F950E2608528200542560 /* AppDelegate.swift in Sources */,
 				368F95642608A8B000542560 /* ChangeViewController.swift in Sources */,
+				36FE0EB9260B697000711F0E /* Router.swift in Sources */,
 				368F955B2608934100542560 /* CityViewController.swift in Sources */,
 				368F95182608528200542560 /* Map.xcdatamodeld in Sources */,
 				368F95102608528200542560 /* SceneDelegate.swift in Sources */,
@@ -292,6 +311,7 @@
 				368F9581260A48AE00542560 /* CityCoordinator.swift in Sources */,
 				368F957E260A476400542560 /* MainCoordinator.swift in Sources */,
 				368F95612608994000542560 /* CityTableViewCell.swift in Sources */,
+				36FE0EBC260B69A900711F0E /* Presentable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
