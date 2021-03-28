@@ -119,16 +119,17 @@ class MainView: UIView, UIGestureRecognizerDelegate {
     
     @objc func prevPlace() {
         var region: MKCoordinateRegion = map.region
-        region.span.latitudeDelta = min(0.5, 180.0)
-        region.span.longitudeDelta = min(0.5, 180.0)
-        map.setRegion(region, animated: false)
+        if cities.count != 0{
+            region.span.latitudeDelta = min(0.5, 180.0)
+            region.span.longitudeDelta = min(0.5, 180.0)
+            map.setRegion(region, animated: false)
+            delegate.changeTitle(name: cities[cnt].name!)
+        }
         
         if cnt >= 0 && cnt < cities.count {
             let coordinate = CLLocationCoordinate2D(latitude: cities[cnt].latitude, longitude: cities[cnt].longitude)
             map.setCenter(coordinate, animated: true)
         }
-        
-        delegate.changeTitle(name: cities[cnt].name!)
         
         if cnt > 0 {
             cnt -= 1
@@ -140,16 +141,17 @@ class MainView: UIView, UIGestureRecognizerDelegate {
     
     @objc func nextPlace() {
         var region: MKCoordinateRegion = map.region
-        region.span.latitudeDelta = min(0.5, 180.0)
-        region.span.longitudeDelta = min(0.5, 180.0)
-        map.setRegion(region, animated: false)
+        if cities.count != 0{
+            region.span.latitudeDelta = min(0.5, 180.0)
+            region.span.longitudeDelta = min(0.5, 180.0)
+            map.setRegion(region, animated: false)
+            delegate.changeTitle(name: cities[cnt].name!)
+        }
         
         if cnt >= 0 && cnt < cities.count {
             let coordinate = CLLocationCoordinate2D(latitude: cities[cnt].latitude, longitude: cities[cnt].longitude)
             map.setCenter(coordinate, animated: true)
         }
-        
-        delegate.changeTitle(name: cities[cnt].name!)
         
         if cnt < cities.count - 1 {
             cnt += 1
